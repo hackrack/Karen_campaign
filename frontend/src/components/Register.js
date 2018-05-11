@@ -27,7 +27,8 @@ class Register extends React.Component {
       interests: "",
       latitude: "",
       longitude: "",
-      age: -1,
+      age: 0,
+      backendMessage: ""
     }
   }
 
@@ -73,6 +74,9 @@ class Register extends React.Component {
       })
       .then( (res) => {
         console.log(res.data);
+        this.setState({
+          backendMessage: res.data
+        })
       })
       .then( () => {
         console.log("insa");
@@ -92,13 +96,13 @@ class Register extends React.Component {
   }
 
   render() {
-    const { first_name, last_name, middle_initial, dob, interests, email, phone_number, age } = this.state;
-    console.log(age);
+    const { first_name, last_name, middle_initial, dob, interests, email, phone_number, age, backendMessage } = this.state;
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.onPositionReceived, this.locationNotReceived)
     }
 
+    console.log("backendMessage: ", this.state.backendMessage);
     return(
       <div>
         <nav class="navbar navbar-light bg-light">
@@ -191,7 +195,7 @@ class Register extends React.Component {
               </div>
             </div>
           </div>
-          {age === -1?"":age < 18 && age > -1?<h3>Thank you for your help, unfortunetly you are younger than 18, please come back when you are 18 ol older</h3>:""}
+          {backendMessage === 'youngvolunteers'? <h1>Thank you for your help, you are too young</h1>: backendMessage.length > 0 && backendMessage !== 'youngvolunteers'? <h1>{backendMessage}</h1>:""}
         </div>
       </div>
     )
