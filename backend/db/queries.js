@@ -44,6 +44,7 @@ function isVotedBefore(votersData, volunteerData) {
 }
 
 function getRegister(req, res, next) {
+  console.log("req body: ", req.body);
   return db
   .any(
     `SELECT * FROM voters`
@@ -56,32 +57,37 @@ function getRegister(req, res, next) {
             var existedVoter = isVotedBefore(data, req.body);
             var parsed = JSON.parse(response);
             var formatted_address = parsed.results[0]['formatted_address'];
-            return db.none(
-              'INSERT INTO volunteers' +
-                    '(first_name, last_name, middle_initial, dob, interests, phone_number, email, address, voter_id)' +
-                    'VALUES (${first_name}, ${last_name}, ${middle_initial}, ${dob}, ${interests}, ${phone_number}, ${email}, ${address}, ${voter_id})',
-                    {
-                      first_name: req.body.first_name,
-                      last_name: req.body.last_name,
-                      middle_initial: req.body.middle_initial,
-                      dob: req.body.dob,
-                      interests: req.body.interests,
-                      phone_number: req.body.phone_number,
-                      email: req.body.email,
-                      address: formatted_address,
-                      voter_id: existedVoter.voter_id
-                    }
-              )
-              .then(data => {
-                if (existedVoter == 'never voted before') {
-                  res.json("Thank you started to work with us")
-                } else {
-                  res.json("Thank you for your loyalty " + existedVoter.full_name.split(/(\s).+\s/).join("") + "!")
-                }
-              })
-              .catch(error => {
-                res.json(error);
-              });
+            if (formatted_address.match(/NY/g)) {
+              return db.none(
+                'INSERT INTO volunteers' +
+                      '(first_name, last_name, middle_initial, dob, interests, phone_number, email, address, voter_id)' +
+                      'VALUES (${first_name}, ${last_name}, ${middle_initial}, ${dob}, ${interests}, ${phone_number}, ${email}, ${address}, ${voter_id})',
+                      {
+                        first_name: req.body.first_name,
+                        last_name: req.body.last_name,
+                        middle_initial: req.body.middle_initial,
+                        dob: req.body.dob,
+                        interests: req.body.interests,
+                        phone_number: req.body.phone_number,
+                        email: req.body.email,
+                        address: formatted_address,
+                        voter_id: existedVoter.voter_id
+                      }
+                )
+                .then(data => {
+                  if (existedVoter == 'never voted before') {
+                    res.json("firsttimevolunteer")
+                  } else {
+                    res.json("loyal " + existedVoter.full_name.split(/(\s).+\s/).join(""))
+                  }
+                })
+                .catch(error => {
+                  res.json(error);
+                });
+            } else {
+              var state = formatted_address.split(" ");
+              res.json("Please contact " + state[state.length-2] + " democratic party office")
+            }
         })
       }
     } else {

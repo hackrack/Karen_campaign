@@ -1,94 +1,163 @@
-
-.form-style-3{
-    max-width: 50%;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-}
-.form-style-3 label{
-    display:block;
-    margin-bottom: 10px;
-}
-.form-style-3 label > span{
-    float: left;
-    width: 100px;
-    color: white;
-    font-size: 13px;
-}
-.form-style-3 fieldset{
-    border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    margin: 0px 0px 10px 0px;
-    border: 1px solid #FFD2D2;
-    padding: 20px;
-    background:  #0087DC;
-    box-shadow: inset 0px 0px 15px #0087DC;
-    -moz-box-shadow: inset 0px 0px 15px #0087DC;
-    -webkit-box-shadow: inset 0px 0px 15px #0087DC;
-}
-.form-style-3 fieldset legend{
-    color: #0087DC;
-    border-top: 1px solid #0087DC;
-    border-left: 1px solid #0087DC;
-    border-right: 1px solid #0087DC;
-    border-radius: 5px 5px 0px 0px;
-    -webkit-border-radius: 5px 5px 0px 0px;
-    -moz-border-radius: 5px 5px 0px 0px;
-    background: white;
-    padding: 0px 8px 3px 8px;
-    box-shadow: -0px -1px 2px #0087DC;
-    -moz-box-shadow:-0px -1px 2px #F1F1F1;
-    -webkit-box-shadow:-0px -1px 2px #F1F1F1;
-    font-weight: normal;
-    font-size: 12px;
-}
-.form-style-3 textarea{
-    width:250px;
-    height:100px;
-}
-.form-style-3 input[type=text],
-.form-style-3 input[type=date],
-.form-style-3 input[type=datetime],
-.form-style-3 input[type=number],
-.form-style-3 input[type=search],
-.form-style-3 input[type=time],
-.form-style-3 input[type=url],
-.form-style-3 input[type=email],
-.form-style-3 select,
-.form-style-3 textarea{
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border: 1px solid #0087DC;
-    outline: none;
-    color: #0087DC;
-    padding: 5px 8px 5px 8px;
-    box-shadow: inset 1px 1px 4px #0087DC;
-    -moz-box-shadow: inset 1px 1px 4px #0087DC;
-    -webkit-box-shadow: inset 1px 1px 4px #0087DC;
-    background: white;
-    width:50%;
-}
-.form-style-3  input[type=submit],
-.form-style-3  input[type=button]{
-    background: #0087DC;
-    border: 1px solid white;
-    padding: 5px 15px 5px 15px;
-    color: white;
-    box-shadow: inset -1px -1px 3px #0087DC;
-    -moz-box-shadow: inset -1px -1px 3px #0087DC;
-    -webkit-box-shadow: inset -1px -1px 3px #0087DC;
-    border-radius: 3px;
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    font-weight: bold;
-}
-.required{
-    color:red;
-    font-weight:normal;
+#socialicons {
+  text-align: center;
 }
 
-.denotes {
-  font-size: 7px;
+#socialicons .icon {
+  background: MAIN_COLOR;
+  display: inline-block;
+  color: #00aef3;
+  font-size: 18px;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  vertical-align: middle;
+  margin: 0 1px 8px;
+  -webkit-border-radius: 17px;
+  -moz-border-radius: 17px;
+  border-radius: 17px;
+}
+
+#socialicons .icon:hover {
+  background: HOVER_COLOR;
+}
+
+.jumbo {
+  height: 280px;
+  background-image: url("http://daphnemaia.com/wp-content/uploads/2018/03/linkedin-background-image-elegant-awesome-linkedin-cover-ideas-pilation-of-linkedin-background-image.png");
+  background-size: cover;
+}
+
+h1,h5 {
+  font-family: 'Sarala', sans-serif;
+  font-weight: bold;
   color: white
+}
+
+#img {
+  height: 319px;
+  width: 279px;
+  margin-left: -260px;
+  margin-top: -30px;
+  box-shadow: 0 2px 4px 0 rgba(38, 47, 42, 1.0), 0 6px 15px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 40%;
+}
+
+#logo {
+  width: 130px;
+  height: 130px;
+}
+
+h4 {
+  margin-left: -260px;
+  color: #00aef3;
+  text-shadow: grey 1px 1px;
+}
+
+#senator {
+  margin-left: -260px;
+  color: gray;
+}
+
+@media screen and (max-width: 360px) {
+  #logo {
+    margin-top: -70px;
+    width: 81px;
+    height: 86px;
+  }
+  #img, #senator, h4 {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #logo {
+    display: none;
+  }
+  #img {
+    height: 184px;
+    width: 159px;
+    margin-left: -15px;
+    margin-top: -30px;
+    box-shadow: 0 2px 4px 0 rgba(38, 47, 42, 1.0), 0 6px 15px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 40%;
+  }
+  h1 {
+    font-size: 30px;
+  }
+}
+
+@media screen and (max-width: 1512px) {
+  #logo{
+    display: none;
+  }
+  #img {
+    height: 184px;
+    width: 159px;
+    margin-left: -15px;
+    margin-top: -30px;
+    box-shadow: 0 2px 4px 0 rgba(38, 47, 42, 1.0), 0 6px 15px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 40%;
+  }
+  h1{
+    font-size: 30px;
+  }
+  #senator, h4{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  #logo{
+    margin-top: -70px;
+    width: 81px;
+    height: 86px;
+  }
+  #img, #senator, h4{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  #logo{
+    margin-top: -70px;
+    width: 81px;
+    height: 86px;
+  }
+  #img, #senator, h4{
+    display: none;
+  }
+  h1{
+    font-size: 30px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  #logo{
+    margin-top: -70px;
+    width: 81px;
+    height: 86px;
+  }
+  #img, #senator, h4{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 411px) {
+  #logo{
+    margin-top: -70px;
+    width: 81px;
+    height: 86px;
+  }
+  #img, #senator, h4{
+    display: none;
+  }
+}
+
+.backendMessage {
+  color: blue;
+}
+
+.required {
+  color: red;
 }
