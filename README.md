@@ -13,10 +13,11 @@ This Fullstack Web application built with React.js, express.js on Node.js and Po
 2. Once the previous step is done, make sure that when you open a terminal and type `psql` your prompt changes to something like `{username}=#`. If you see any error, please make sure you are following the instructions step by step.
 
 3. If everything went well, we will now seed our database using `psql` as follows.
-..1. Navigate to Karen_campaign/backend/db
+
+⋅⋅a) Navigate to Karen_campaign/backend/db
 ``` cd Karen_campaign/backend/db```
 
-..2. In the terminal execute ```psql -f campaigndb.sql```
+⋅⋅b) In the terminal execute ```psql -f campaigndb.sql```
 
 4. Inspect the terminal log for any errors. To verify type `psql`, once in the psql prompt type `\l` and make sure you see line like
 ```campaigndb   | c4q      | UTF8     | en_US.UTF-8 | en_US.UTF-8 | ```
@@ -42,12 +43,12 @@ if you don't see this in your terminal make sure you have followed the steps abo
 
 ## Key dependencies
 ### Backend
-.*[NodeJS](https://nodejs.org/en/)
-.*[ExpressJS](https://expressjs.com/) for web server app on top of NodeJS
-.*[Postgres](https://www.postgresql.org/docs/current/static/index.html) as a SQL database server
-.*[PG-Promise](https://github.com/vitaly-t/pg-promise) as the communication layer between ExpressJS server and Postgres server
-.*[Geocod.io API](https://geocod.io/) to make our app location-aware
+*[NodeJS](https://nodejs.org/en/)
+*[ExpressJS](https://expressjs.com/) for web server app on top of NodeJS
+*[Postgres](https://www.postgresql.org/docs/current/static/index.html) as a SQL database server
+*[PG-Promise](https://github.com/vitaly-t/pg-promise) as the communication layer between ExpressJS server and Postgres server
+*[Geocod.io API](https://geocod.io/) to make our app location-aware
 
 ### Frontend
-.*[ReactJS](https://reactjs.org/) as the frontend library
-.*[Bootstrap](https://www.bootstrapcdn.com/) as a CSS framework
+*[ReactJS](https://reactjs.org/) as the frontend library
+*[Bootstrap](https://www.bootstrapcdn.com/) as a CSS framework
