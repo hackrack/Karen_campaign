@@ -23,7 +23,7 @@
 }
 
 .jumbo {
-  height: 280px;
+  height: 250px;
   background-image: url("http://daphnemaia.com/wp-content/uploads/2018/03/linkedin-background-image-elegant-awesome-linkedin-cover-ideas-pilation-of-linkedin-background-image.png");
   background-size: cover;
 }
@@ -31,14 +31,16 @@
 h1,h5 {
   font-family: 'Sarala', sans-serif;
   font-weight: bold;
-  color: white
+  color: white;
+  margin-top: 50px;
+  line-height: 20px;
 }
 
 #img {
-  height: 319px;
-  width: 279px;
-  margin-left: -260px;
-  margin-top: -30px;
+  height: 212px;
+  width: 186px;
+  /* margin-left: -260px; */
+  margin-top: 10px;
   box-shadow: 0 2px 4px 0 rgba(38, 47, 42, 1.0), 0 6px 15px 0 rgba(0, 0, 0, 0.19);
   border-radius: 40%;
 }
@@ -46,11 +48,12 @@ h1,h5 {
 #logo {
   width: 130px;
   height: 130px;
+  margin-top: 50px;
 }
 
 h4 {
-  margin-left: -260px;
-  color: #00aef3;
+  margin-left: 15px;
+  color: white;
   text-shadow: grey 1px 1px;
 }
 
@@ -87,7 +90,7 @@ h4 {
   }
 }
 
-@media screen and (max-width: 1512px) {
+/* @media screen and (max-width: 1512px) {
   #logo{
     display: none;
   }
@@ -105,7 +108,7 @@ h4 {
   #senator, h4{
     display: none;
   }
-}
+} */
 
 @media screen and (max-width: 414px) {
   #logo{

@@ -1,6 +1,5 @@
 import React from 'react';
 import './Register.css';
-import axios from 'axios';
 
 class VolunteerForm extends React.Component {
 
@@ -13,8 +12,11 @@ class VolunteerForm extends React.Component {
   render() {
     const { first_name, last_name, middle_initial,
             dob, interests, email, phone_number,
-            age, backendMessage, handleFormInput,
-            handleSubmit, handleDobInput } = this.props;
+            option1,option9,
+            option2,option3,option4,
+            option5,option6,option7,
+            option8, handleFormInput,handleSubmit,
+            handleDobInput, handleInputCheck} = this.props;
     return (
       <div>
           <form onSubmit={handleSubmit}>
@@ -22,7 +24,7 @@ class VolunteerForm extends React.Component {
               <div className='col-sm-6'>
                 <div className="form-row">
                   <div className="form-group col-md-6">
-                    <label for="firstName">
+                    <label htmlFor="firstName">
                       First Name <span className="required">*</span>
                     </label>
                     <input
@@ -37,7 +39,7 @@ class VolunteerForm extends React.Component {
                     />
                   </div>
                   <div className="form-group col-md-6">
-                    <label for="lastName">
+                    <label htmlFor="lastName">
                       Last Name <span className="required">*</span>
                     </label>
                     <input
@@ -54,7 +56,7 @@ class VolunteerForm extends React.Component {
                 </div>
                 <div className="form-row">
                   <div className="form-group col-md-6">
-                    <label for="middleName" >
+                    <label htmlFor="middleName" >
                       Middle Name
                     </label>
                     <input
@@ -65,11 +67,10 @@ class VolunteerForm extends React.Component {
                       className="form-control"
                       id="middleName"
                       placeholder="Middle Name"
-                      required
                     />
                   </div>
                   <div className="form-group col-md-6">
-                    <label for="dateOfBirth">
+                    <label htmlFor="dateOfBirth">
                       Date of birth <span className="required">*</span>
                     </label>
                     <input
@@ -85,7 +86,7 @@ class VolunteerForm extends React.Component {
                   </div>
                 </div>
                 <div className="form-group">
-                  <label for="telNumber">
+                  <label htmlFor="telNumber">
                     Phone Number (format: xxx-xxx-xxxx) <span className="required">*</span>
                   </label>
                   <input
@@ -101,7 +102,7 @@ class VolunteerForm extends React.Component {
                   />
                 </div>
                 <div className="form-group">
-                  <label for="exampleInputEmail1">
+                  <label htmlFor="exampleInputEmail1">
                     Email address <span className="required">*</span>
                   </label>
                   <input
@@ -122,7 +123,7 @@ class VolunteerForm extends React.Component {
                   </small>
                 </div>
                 <div className="form-group">
-                  <label for="interests">Interests</label>
+                  <label htmlFor="interests">Interests</label>
                   <input
                     name="interests"
                     value={interests}
@@ -150,7 +151,12 @@ class VolunteerForm extends React.Component {
                     </div>
                     <div className="at-row at-row-full Interests[45434]">
                       <label className="at-check Interests[45434]">
-                        <input type="checkbox" name="Interests[45434]" />
+                        <input
+                          type="checkbox"
+                          name="option1"
+                          checked={option1}
+                          onChange={handleInputCheck}
+                        />
                         <span>
                           I would like to help with Canvassing/Knocking Doors!
                         </span>
@@ -158,7 +164,12 @@ class VolunteerForm extends React.Component {
                     </div>
                     <div className="at-row at-row-full Interests[45435]">
                       <label className="at-check Interests[45435]">
-                        <input type="checkbox" name="Interests[45435]" />
+                        <input
+                          type="checkbox"
+                          name="option2"
+                          checked={option2}
+                          onChange={handleInputCheck}
+                        />
                         <span>
                           I would like to make calls/phone bank!
                         </span>
@@ -166,7 +177,12 @@ class VolunteerForm extends React.Component {
                     </div>
                     <div className="at-row at-row-full Interests[45436]">
                       <label className="at-check Interests[45436]">
-                        <input type="checkbox" name="Interests[45436]" />
+                        <input
+                          type="checkbox"
+                          name="option3"
+                          checked={option3}
+                          onChange={handleInputCheck}
+                        />
                         <span>
                           I am interested in running for local office
                         </span>
@@ -174,7 +190,12 @@ class VolunteerForm extends React.Component {
                     </div>
                     <div className="at-row at-row-full Interests[45437]">
                       <label className="at-check Interests[45437]">
-                        <input type="checkbox" name="Interests[45437]" />
+                        <input
+                          type="checkbox"
+                          name="option4"
+                          checked={option4}
+                          onChange={handleInputCheck}
+                        />
                         <span>
                           Other Volunteer Opportunities
                         </span>
@@ -182,7 +203,12 @@ class VolunteerForm extends React.Component {
                     </div>
                     <div className="at-row at-row-full Interests[45438]">
                       <label className="at-check Interests[45438]">
-                        <input type="checkbox" name="Interests[45438]" />
+                        <input
+                          type="checkbox"
+                          name="option5"
+                          checked={option5}
+                          onChange={handleInputCheck}
+                        />
                         <span>
                           I can provide supporter housing to staff and volunteers working on campaigns in my area
                         </span>
@@ -190,7 +216,12 @@ class VolunteerForm extends React.Component {
                     </div>
                     <div className="at-row at-row-full Interests[45439]">
                       <label className="at-check Interests[45439]">
-                        <input type="checkbox" name="Interests[45439]" />
+                        <input
+                          type="checkbox"
+                          name="option6"
+                          checked={option6}
+                          onChange={handleInputCheck}
+                        />
                         <span>
                           I can provide translation assistance/translation services
                         </span>
@@ -198,7 +229,12 @@ class VolunteerForm extends React.Component {
                     </div>
                     <div className="at-row at-row-full Interests[45440]">
                       <label className="at-check Interests[45440]">
-                        <input type="checkbox" name="Interests[45440]" />
+                        <input
+                          type="checkbox"
+                          name="option7"
+                          checked={option7}
+                          onChange={handleInputCheck}
+                        />
                         <span>
                           I have a professional skill I can contribute to the party such as writing, graphic design, photography, etc
                         </span>
@@ -206,7 +242,12 @@ class VolunteerForm extends React.Component {
                     </div>
                     <div className="at-row at-row-full Interests[45441]">
                       <label className="at-check Interests[45441]">
-                        <input type="checkbox" name="Interests[45441]" />
+                        <input
+                          type="checkbox"
+                          name="option8"
+                          checked={option8}
+                          onChange={handleInputCheck}
+                        />
                         <span>
                           I have a vehicle that I can use to assist with transportation or a truck I can use to help move supplies into campaign offices
                         </span>
@@ -214,7 +255,12 @@ class VolunteerForm extends React.Component {
                     </div>
                     <div className="at-row at-row-full Interests[45442]">
                       <label className="at-check Interests[45442]">
-                        <input type="checkbox" name="Interests[45442]" />
+                        <input
+                          type="checkbox"
+                          name="option9"
+                          checked={option9}
+                          onChange={handleInputCheck}
+                        />
                         <span>
                           I can assist with data entry tasks
                         </span>
