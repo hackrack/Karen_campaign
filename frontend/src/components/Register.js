@@ -30,13 +30,43 @@ class Register extends React.Component {
       longitude: "",
       age: 0,
       backendMessage: "",
-      modalClosed: true
+      option1: false,
+      option2: false,
+      option3: false,
+      option4: false,
+      option5: false,
+      option6: false,
+      option7: false,
+      option8: false,
+      option9: false,
+      volunteer_id: "",
+      volunteersCounted: 0
     }
+  }
+
+  componentDidMount() {
+    axios
+      .get('volunteers/countvolunteers')
+      .then( (res) => {
+        console.log("res data componentDidMount: ", res.data);
+        this.setState({
+          volunteersCounted: res.data.counted
+        })
+      })
+      .catch( (err) => {
+        console.log(err);
+      })
   }
 
   handleFormInput = (e) => {
     this.setState({
       [e.target.name]: e.target.value
+    })
+  }
+
+  handleInputCheck = (e) => {
+    this.setState({
+      [e.target.name]: e.target.checked
     })
   }
 
@@ -60,13 +90,19 @@ class Register extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { first_name, last_name, middle_initial, dob, interests, latitude, longitude, phone_number, email, age } = this.state;
+    const { first_name, last_name, middle_initial,
+            dob, interests, latitude, longitude,
+            phone_number, email,
+            option1, option2, option3, option4,
+            option5, option6, option7,
+            option8, option9} = this.state;
+
     let get_age = getAge(dob);
     axios
       .post('/volunteers/register', {
-        first_name: first_name,
-        last_name: last_name,
-        middle_initial: middle_initial,
+        first_name: first_name.toLowerCase(),
+        last_name: last_name.toLowerCase(),
+        middle_initial: middle_initial[0].toLowerCase(),
         phone_number: phone_number,
         dob: dob,
         email: email,
@@ -75,10 +111,26 @@ class Register extends React.Component {
         latitude_longitude: latitude + ", " + longitude,
       })
       .then( (res) => {
-        console.log(res.data);
-        this.setState({
-          backendMessage: res.data
-        })
+        if (res.data.volunteer_id) {
+          axios
+            .post(`/volunteers/options`, {
+              volunteer_id: res.data.volunteer_id,
+              backendMessage1: res.data.backendMessage,
+              option1: option1,
+              option2: option2,
+              option3: option3,
+              option4: option4,
+              option5: option5,
+              option6: option6,
+              option7: option7,
+              option8: option8,
+              option9: option9
+            })
+            .then( (res) => {
+              this.setState({ backendMessage: res.data } );
+            })
+        }
+        this.setState({ backendMessage: res.data } );
       })
       .then( () => {
         this.setState({
@@ -100,15 +152,16 @@ class Register extends React.Component {
 
     const { first_name, last_name, middle_initial,
             dob, interests, email, phone_number,
-            age, backendMessage } = this.state;
-            console.log("backendMessage.slice(0,5) ", backendMessage.slice(0,5));
-            console.log("backendMessage.slice(6) ", backendMessage.slice(6));
+            age, backendMessage, option1, option2,
+            option3,option4,option5,option6,
+            option7,option8,option9, volunteersCounted } = this.state;
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.onPositionReceived, this.locationNotReceived)
     }
     return (
       <div>
-        <div className="jumbotron text-center jumbo">
+        <div className="text-center jumbo">
           <div className='row'>
             <div className='col-sm-4'>
               <img
@@ -116,27 +169,13 @@ class Register extends React.Component {
                 src="http://lghttp.60402.nexcesscdn.net/8046399/images/page/-/uploads/fellows/JG_HEADSHOT.jpg"
                 alt="senator" />
               <br />
-              <br />
               <h4>
                 Karen Goldberg
               </h4>
-              <p id="senator">
-                For Senator.
-              </p>
             </div>
-            <div className='col-sm-4'>
+            <div className='col-sm-8'>
               <div className='row'>
-                <div className='col-sm-2'>
-                  <a
-                    className="navbar-brand"
-                    href="https://michigandems.com/">
-                    <img
-                      id="logo"
-                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/US_Democratic_Party_Logo.svg/2000px-US_Democratic_Party_Logo.svg.png"
-                      alt="senator" />
-                  </a>
-                </div>
-                <div className='col-sm-10'>
+                <div className='col-sm-8'>
                   <h5>
                     STAND UP AND JOIN US IN
                   </h5>
@@ -146,6 +185,16 @@ class Register extends React.Component {
                   <h1 >
                     Better Michigan
                   </h1>
+                </div>
+                <div className='col-sm-4'>
+                  <a
+                    className="navbar-brand"
+                    href="https://michigandems.com/">
+                    <img
+                      id="logo"
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/US_Democratic_Party_Logo.svg/2000px-US_Democratic_Party_Logo.svg.png"
+                      alt="senator" />
+                  </a>
                 </div>
               </div>
             </div>
@@ -164,7 +213,7 @@ class Register extends React.Component {
           className="container">
           <br />
           <br />
-            {backendMessage === "youngvolunteers"?
+            {backendMessage.length > 0 && backendMessage === "youngvolunteers"?
               <p>
                   thank you trying to help, please contact us when you hit the 18.
                   Lorem Ipsum is simply dummy text of the printing and
@@ -179,9 +228,10 @@ class Register extends React.Component {
                   with desktop publishing software like Aldus PageMaker
                   including versions of Lorem Ipsum.
               </p>:
-              backendMessage === "firsttimevolunteer"?
+              backendMessage && backendMessage.backendMessage === "firsttimevolunteer"?
               <p>
                   thank you for strating to work with us
+                  we becoming more and more <strong>{this.state.volunteersCounted}</strong>
                   Lorem Ipsum is simply dummy text of the printing and
                   typesetting industry. Lorem Ipsum has been the industry's
                   standard dummy text ever since the 1500s,
@@ -194,10 +244,26 @@ class Register extends React.Component {
                   with desktop publishing software like Aldus PageMaker
                   including versions of Lorem Ipsum.
               </p>:
-              backendMessage.slice(0,5) == "loyal"?
+              backendMessage && backendMessage.backendMessage.slice(0,5) === "loyal"?
               <p>
-                  Thank you for your loyalty mr { backendMessage.slice(6)}. We realy
+                  Thank you for your loyalty mr { backendMessage.backendMessage.slice(6)}. We realy
                   appreciate keep working with use.
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s,
+                  when an unknown printer took a galley of type and scrambled
+                  it to make a type specimen book. It has survived not only
+                  five centuries, but also the leap into electronic typesetting,
+                  remaining essentially unchanged. It was popularised
+                  in the 1960s with the release of Letraset sheets
+                  containing Lorem Ipsum passages, and more recently
+                  with desktop publishing software like Aldus PageMaker
+                  including versions of Lorem Ipsum.
+              </p>:
+              backendMessage && backendMessage.backendMessage === "outofstate"?
+              <p>
+                  Thank you for trying to help us please contact {backendMessage.state} state Democratic Party Office please.
+                  We reallyappreciate keep working with use.
                   Lorem Ipsum is simply dummy text of the printing and
                   typesetting industry. Lorem Ipsum has been the industry's
                   standard dummy text ever since the 1500s,
@@ -214,6 +280,7 @@ class Register extends React.Component {
                 handleFormInput={this.handleFormInput}
                 handleDobInput={this.handleDobInput}
                 handleSubmit={this.handleSubmit}
+                handleInputCheck={this.handleInputCheck}
                 first_name={first_name}
                 last_name={last_name}
                 middle_initial={middle_initial}
@@ -222,6 +289,15 @@ class Register extends React.Component {
                 email={email}
                 phone_number={phone_number}
                 age={age}
+                option1={option1}
+                option2={option2}
+                option3={option3}
+                option4={option4}
+                option5={option5}
+                option6={option6}
+                option7={option7}
+                option8={option8}
+                option9={option9}
               />
           }
         </div>

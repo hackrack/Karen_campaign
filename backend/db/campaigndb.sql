@@ -35,6 +35,18 @@ CREATE TABLE youngVolunteers(
   interests VARCHAR,
   young_volunteer_timestamp timestamp not null default CURRENT_TIMESTAMP);
 
+CREATE TABLE volunteerOptions(
+  option_id SERIAL PRIMARY KEY,
+  volunteer_id INTEGER REFERENCES volunteers,
+  option1 BOOLEAN,
+  option2 BOOLEAN,
+  option3 BOOLEAN,
+  option4 BOOLEAN,
+  option5 BOOLEAN,
+  option6 BOOLEAN,
+  option7 BOOLEAN,
+  option8 BOOLEAN,
+  option9 BOOLEAN);
 
 INSERT INTO voters(full_name, phone_number, age, address, date_last_contacted)
   VALUES ('George Timothy Clooney', '123-456-7890', '57', '1000 Main street, Wayne, MI, 48150', '2016-09-01'),
