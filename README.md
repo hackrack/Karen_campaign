@@ -25,7 +25,7 @@ if you don't see this in your terminal make sure you have followed the steps abo
 
 ### How to run the app
 
-**Note**: Before trying to run this app make sure you have NodeJS installed in your machine by typing 'node --version', you should see something like ```v8.11.1``` showing the version you have installed. To avoid possible errors make sure you have the version shown here or greater. To install Node follow [this](https://nodejs.org/en/download/) instructions.
+**Note**: Before trying to run this app make sure you have NodeJS installed in your machine by typing ```node --version```, you should see something like ```v8.11.1``` showing the version you have installed. To avoid possible errors make sure you have the version shown here or greater. To install Node follow [this](https://nodejs.org/en/download/) instructions.
 
 1. Navigate into Karen_campaign/backend
 ```cd Karen_campaign/backend```

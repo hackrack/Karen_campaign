@@ -60,11 +60,12 @@ function getRegister(req, res, next) {
             var hasVotedBefore = findExactMatch(data, req.body);
             var parsed = JSON.parse(response);
             var formatted_address = parsed.results[0]['formatted_address'];
-            if (formatted_address.match(/NY/g)) {
+            if (formatted_address.match(/NJ/g)) {
               return db.one(
                 'INSERT INTO volunteers' +
                       '(first_name, last_name, middle_initial, dob, interests, phone_number, email, address, voter_id)' +
-                      'VALUES (${first_name}, ${last_name}, ${middle_initial}, ${dob}, ${interests}, ${phone_number}, ${email}, ${address}, ${voter_id}) RETURNING volunteer_id',
+                      'VALUES (${first_name}, ${last_name}, ${middle_initial}, ${dob}, ${interests}, ${phone_number}, ${email}, ${address}, ${voter_id})' +
+                      'RETURNING volunteer_id',
                       {
                         first_name: req.body.first_name,
                         last_name: req.body.last_name,

@@ -2,13 +2,7 @@ import React from 'react';
 import './Register.css';
 
 class VolunteerForm extends React.Component {
-
-  constructor(props) {
-    super(props);
-      this.state = {
-    }
-  }
-
+  
   render() {
     const { first_name, last_name, middle_initial,
             dob, interests, email, phone_number,
