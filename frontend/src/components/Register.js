@@ -41,7 +41,9 @@ class Register extends React.Component {
       option9: false,
       volunteer_id: "",
       volunteersCounted: 0,
-      submitForm: false
+      submitForm: false,
+      backendMessage_fName: "",
+      backendMessage_lName: ""
     }
   }
 
@@ -50,7 +52,7 @@ class Register extends React.Component {
       .get('volunteers/countvolunteers')
       .then( (res) => {
         this.setState({
-          volunteersCounted: res.data.counted + 1234560
+          volunteersCounted: Number(res.data.counted) + 1234560
         })
       })
       .catch( (err) => {
@@ -111,6 +113,10 @@ class Register extends React.Component {
         latitude_longitude: latitude + ", " + longitude,
       })
       .then( (res) => {
+        this.setState({
+          backendMessage_fName: res.data.first_name,
+          backendMessage_lName: res.data.last_name,
+        });
         if (res.data.volunteer_id) {
           axios
             .post(`/volunteers/options`, {
@@ -127,7 +133,9 @@ class Register extends React.Component {
               option9: option9
             })
             .then( (res) => {
-              this.setState({ backendMessage: res.data } );
+              this.setState({
+                backendMessage: res.data,
+              });
             })
         }
         this.setState({ backendMessage: res.data } );
@@ -155,8 +163,7 @@ class Register extends React.Component {
             dob, interests, email, phone_number,
             age, backendMessage, option1, option2,
             option3,option4,option5,option6,
-            option7,option8,option9, volunteersCounted, submitForm } = this.state;
-
+            option7,option8,option9, submitForm, backendMessage_fName, backendMessage_lName } = this.state;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.onPositionReceived, this.locationNotReceived)
     }
@@ -208,139 +215,267 @@ class Register extends React.Component {
         <br />
         <div className="container">
           <div className="row">
-            {!submitForm? <div className="col-sm-1 ">
-              <div>
-                <a
-                  target="blank"
-                  href="https://michigandems.com/">
-                  <img
-                    alt="michigan_democ_logo"
-                    id="logo"
-                    src="https://michigandems.com/wp-content/uploads/2017/08/site.png" />
-                </a>
+            {!submitForm?
+              <div className="col-sm-1 ">
+                <div>
+                  <a
+                    target="blank"
+                    href="https://michigandems.com/">
+                    <img
+                      alt="michigan_democ_logo"
+                      id="logo"
+                      src="https://michigandems.com/wp-content/uploads/2017/08/site.png" />
+                  </a>
+                </div>
               </div>
-            </div>:""}
-            {!submitForm?<div className="col-sm-4">
-              <div >
-                <h4 style={{ color: "#00aef3" }}>
-                  VOLUNTEER FORM
-                </h4>
+              :""}
+              {!submitForm?
+                <div className="col-sm-4">
+                  <div >
+                    <h4 style={{ color: "#00aef3" }}>
+                      VOLUNTEER FORM
+                    </h4>
+                  </div>
+                </div>
+                :""}
               </div>
-            </div>:""}
-          </div>
-          <br />
-        </div>
-        {submitForm?<div className="container"><div className="row"> <div className="col-sm-12 text-center">
-           <div className="check_mark">
-            <div className="sa-icon sa-success animate">
-            <span className="sa-line sa-tip animateSuccessTip"></span>
-            <span className="sa-line sa-long animateSuccessLong"></span>
-            <div className="sa-placeholder"></div>
-            <div className="sa-fix"></div>
-          </div>
-        </div>
-      </div></div></div>:""}
-        <div
-          style={{ backgroundColor: "#f2f4f9", opacity: "0.7" }}
-          className="container">
-          <br />
-          <br />
-          {backendMessage.length > 0 && backendMessage === "youngvolunteers"?
-            <p>
-              thank you trying to help, please contact us when you hit the 18.
-              Lorem Ipsum is simply dummy text of the printing and
-              typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s,
-              when an unknown printer took a galley of type and scrambled
-              it to make a type specimen book. It has survived not only
-              five centuries, but also the leap into electronic typesetting,
-              remaining essentially unchanged. It was popularised
-              in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently
-              with desktop publishing software like Aldus PageMaker
-              including versions of Lorem Ipsum.
-            </p>
-            :
-            backendMessage && backendMessage.backendMessage === "firsttimevolunteer"?
-            <p>
-              thank you for strating to work with us
-              we becoming more and more <strong>{volunteersCounted}</strong>
-            Lorem Ipsum is simply dummy text of the printing and
-            typesetting industry. Lorem Ipsum has been the industry's
-            standard dummy text ever since the 1500s,
-            when an unknown printer took a galley of type and scrambled
-            it to make a type specimen book. It has survived not only
-            five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised
-            in the 1960s with the release of Letraset sheets
-            containing Lorem Ipsum passages, and more recently
-            with desktop publishing software like Aldus PageMaker
-            including versions of Lorem Ipsum.
-          </p>
-          :
-          backendMessage && backendMessage.backendMessage.slice(0,5) === "loyal"?
-          <div>
-          <h1 className="text-center" style={{color: 'black'}}>Thank you</h1>
-          <p>
-            Thank you for your loyalty mr { backendMessage.backendMessage.slice(6)}. We realy
-            appreciate keep working with use.
-            Lorem Ipsum is simply dummy text of the printing and
-            typesetting industry. Lorem Ipsum has been the industry's
-            standard dummy text ever since the 1500s,
-            when an unknown printer took a galley of type and scrambled
-            it to make a type specimen book. It has survived not only
-            five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised
-            in the 1960s with the release of Letraset sheets
-            containing Lorem Ipsum passages, and more recently
-            with desktop publishing software like Aldus PageMaker
-            including versions of Lorem Ipsum.
-          </p>
-        </div>
-          :
-          backendMessage && backendMessage.backendMessage === "outofstate"?
-          <p>
-            Thank you for trying to help us please contact {backendMessage.state} state Democratic Party Office please.
-            We reallyappreciate keep working with use.
-            Lorem Ipsum is simply dummy text of the printing and
-            typesetting industry. Lorem Ipsum has been the industry's
-            standard dummy text ever since the 1500s,
-            when an unknown printer took a galley of type and scrambled
-            it to make a type specimen book. It has survived not only
-            five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised
-            in the 1960s with the release of Letraset sheets
-            containing Lorem Ipsum passages, and more recently
-            with desktop publishing software like Aldus PageMaker
-            including versions of Lorem Ipsum.
-          </p>
-          :
-          <VolunteerForm
-            handleFormInput={this.handleFormInput}
-            handleDobInput={this.handleDobInput}
-            handleSubmit={this.handleSubmit}
-            handleInputCheck={this.handleInputCheck}
-            first_name={first_name}
-            last_name={last_name}
-            middle_initial={middle_initial}
-            dob={dob}
-            interests={interests}
-            email={email}
-            phone_number={phone_number}
-            age={age}
-            option1={option1}
-            option2={option2}
-            option3={option3}
-            option4={option4}
-            option5={option5}
-            option6={option6}
-            option7={option7}
-            option8={option8}
-            option9={option9}
-            />
-        }
-      </div>
-    </div>
+              <br />
+            </div>
+            {submitForm?
+              <div className="container">
+                <div className="row">
+                  <div className="col-sm-12 text-center">
+                    <div className="check_mark">
+                      <div className="sa-icon sa-success animate">
+                        <span className="sa-line sa-tip animateSuccessTip">
+                        </span>
+                        <span className="sa-line sa-long animateSuccessLong">
+                        </span>
+                        <div className="sa-placeholder">
+                        </div>
+                        <div className="sa-fix">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              :""}
+              <div
+                style={{ backgroundColor: "#f2f4f9"}}
+                className="container">
+                <br />
+                <br />
+                {backendMessage.backendMessage === "youngvolunteers"?
+                  <div>
+                    <h1
+                      className="text-center"
+                      style={{color: "#00aef3"}}>
+                      Thank You!
+                    </h1>
+                    <h2 className="text-center">We are increasing <span className="counted">{this.state.volunteersCounted.toLocaleString()}</span></h2>
+                    <br/>
+                    <br/>
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-sm-6 p-message">
+                          <p className="message">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Dear <strong>{backendMessage.first_name[0].toUpperCase() + backendMessage.first_name.slice(1)}&nbsp;
+                            {backendMessage.last_name[0].toUpperCase() + backendMessage.last_name.slice(1)}</strong>:<br/>
+                            Your effort is appreciated, we saved your information,
+                            since you are currently don't meet the age requirement,
+                            we look forward for your help once you are old enough.<br/>
+                            Thank you for all you do!<br/>
+                            ~ Gretchen Whitmer
+                          </p>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div className="col-sm-6 p-message">
+                          <p className="message">
+                            <strong>EDUCATION</strong><br/>
+                            A good education is the foundation for growing the economy
+                            and we will fight for our students to get the education they
+                            need to compete in a global economy.<br/>
+                            <strong>JOBS AND ECONOMY</strong><br/>
+                            To grow our economy in Michigan, we need to make sure
+                            everyone has a path to a good job and a secure future.<br/>
+                            <strong>HEALTHCARE</strong><br/>
+                            Everyone in Michigan has a right to quality health
+                            care they can afford, and that means expanding coverage and
+                            lowering costs.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  :
+                  backendMessage && backendMessage.backendMessage === "firsttimevolunteer"?
+                  <div>
+                    <h1
+                      className="text-center"
+                      style={{color: "#00aef3"}}>
+                      Thank You!
+                    </h1>
+                    <h2 className="text-center">We are increasing <span className="counted">{this.state.volunteersCounted.toLocaleString()}</span></h2>
+                    <br/>
+                    <br/>
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-sm-6 p-message">
+                          <p className="message">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Dear <strong>{backendMessage_fName[0].toUpperCase() + backendMessage_fName.slice(1)}&nbsp;
+                            {backendMessage_lName[0].toUpperCase() + backendMessage_lName.slice(1)}</strong>:<br/>
+                            Thank you for signing up to volunteer with our Election campaign!
+                            We'll be reaching out soon with opportunities for you to get involved and
+                            help us fight back.<br/>
+                          Thank you for all you do!<br/>
+                            ~ Gretchen Whitmer
+                          </p>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div className="col-sm-6 p-message">
+                          <p className="message">
+                            <strong>EDUCATION</strong><br/>
+                            A good education is the foundation for growing the economy
+                            and we will fight for our students to get the education they
+                            need to compete in a global economy.<br/>
+                            <strong>JOBS AND ECONOMY</strong><br/>
+                            To grow our economy in Michigan, we need to make sure
+                            everyone has a path to a good job and a secure future.<br/>
+                            <strong>HEALTHCARE</strong><br/>
+                            Everyone in Michigan has a right to quality health
+                            care they can afford, and that means expanding coverage and
+                            lowering costs.
+                          </p>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  :
+                  backendMessage && backendMessage.backendMessage === "voter"?
+                  <div>
+                    <h1
+                      className="text-center"
+                      style={{color: "#00aef3"}}>
+                      Thank You!
+                    </h1>
+                    <h2 className="text-center">We are increasing <span className="counted">{this.state.volunteersCounted.toLocaleString()}</span></h2>
+                    <br/>
+                    <br/>
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-sm-6 p-message">
+                          <p className="message">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Dear <strong>{backendMessage_fName[0].toUpperCase() + backendMessage_fName.slice(1)}&nbsp;
+                            {backendMessage_lName[0].toUpperCase() + backendMessage_lName.slice(1)}</strong>:<br/>
+                            First of all I would like to express my heartfelt
+                            appreciation to you for being in our voters records.
+                            Also Thank you for signing up to volunteer with our Election campaign!
+                            We'll be reaching out soon with opportunities for you to get involved and
+                            help us fight back.<br/>
+                            Thank you for all you do!<br/>
+                            ~ Gretchen Whitmer
+                          </p>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div className="col-sm-6 p-message">
+                          <p className="message">
+                            <strong>EDUCATION</strong><br/>
+                            A good education is the foundation for growing the economy
+                            and we will fight for our students to get the education they
+                            need to compete in a global economy.<br/>
+                            <strong>JOBS AND ECONOMY</strong><br/>
+                            To grow our economy in Michigan, we need to make sure
+                            everyone has a path to a good job and a secure future.<br/>
+                            <strong>HEALTHCARE</strong><br/>
+                            Everyone in Michigan has a right to quality health
+                            care they can afford, and that means expanding coverage and
+                            lowering costs.
+                          </p>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  :
+                  backendMessage && backendMessage.backendMessage === "outofstate"?
+                  <div>
+                    <h1
+                      className="text-center"
+                      style={{color: "#00aef3"}}>
+                      Thank You!
+                    </h1>
+                    <h2 className="text-center">We are increasing <span className="counted">{this.state.volunteersCounted.toLocaleString()}</span></h2>
+                    <br/>
+                    <br/>
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-sm-6 p-message">
+                          <p className="message">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Dear <strong>{backendMessage.first_name[0].toUpperCase() + backendMessage.first_name.slice(1)}&nbsp;
+                            {backendMessage.last_name[0].toUpperCase() + backendMessage.last_name.slice(1)}</strong>:<br/>
+                            Your effort is appreciated, since you are from {backendMessage.state} state, please contact
+                            your  local democratic party to learn more about how you can help.<br/>
+                            Thank you for all you do!<br/>
+                            ~ Gretchen Whitmer
+                          </p>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div className="col-sm-6 p-message">
+                          <p className="message">
+                            <strong>EDUCATION</strong><br/>
+                            A good education is the foundation for growing the economy
+                            and we will fight for our students to get the education they
+                            need to compete in a global economy.<br/>
+                            <strong>JOBS AND ECONOMY</strong><br/>
+                            To grow our economy in Michigan, we need to make sure
+                            everyone has a path to a good job and a secure future.<br/>
+                            <strong>HEALTHCARE</strong><br/>
+                            Everyone in Michigan has a right to quality health
+                            care they can afford, and that means expanding coverage and
+                            lowering costs.
+                          </p>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  :
+                  <VolunteerForm
+                    handleFormInput={this.handleFormInput}
+                    handleDobInput={this.handleDobInput}
+                    handleSubmit={this.handleSubmit}
+                    handleInputCheck={this.handleInputCheck}
+                    first_name={first_name}
+                    last_name={last_name}
+                    middle_initial={middle_initial}
+                    dob={dob}
+                    interests={interests}
+                    email={email}
+                    phone_number={phone_number}
+                    age={age}
+                    option1={option1}
+                    option2={option2}
+                    option3={option3}
+                    option4={option4}
+                    option5={option5}
+                    option6={option6}
+                    option7={option7}
+                    option8={option8}
+                    option9={option9}
+                  />
+                }
+              </div>
+            </div>
     )
   }
 }

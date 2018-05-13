@@ -21,7 +21,7 @@ function findExactMatch(voters, volunteer) {
     var voterMiddleInitial = voter.full_name.split(" ")[1][0].toLowerCase();
     if (voter.phone_number === volunteer.phone_number) {
       return voter;
-    } else if (voterMiddleInitial === volunteer.middle_initial && volunteer.age == (Number(voter.age) + getYearDifferenceFromDateLastContacted(voter.date_last_contacted))) {
+    } else if (voterMiddleInitial === volunteer.middle_initial  && volunteer.age == (Number(voter.age) + getYearDifferenceFromDateLastContacted(voter.date_last_contacted))) {
       return voter;
     }
   }
@@ -45,14 +45,12 @@ function volunteersCounted(req, res, next) {
 function getRegister(req, res, next) {
   let first_name = req.body.first_name + "%";
   let last_name = "%" + req.body.last_name;
-  console.log("req.body: ", req.body);
   return db
   .any("SELECT * FROM voters WHERE LOWER (full_name) LIKE ${first_name} AND LOWER (full_name) LIKE ${last_name};",
   {
     first_name, last_name
   })
   .then(data => {
-    console.log("data after New Like Postgress: ", data);
     if (req.body.age >= 18) {
       if (req.body.latitude_longitude) {
         geocodio.get('reverse', {q: req.body.latitude_longitude}, function(err, response) {
@@ -60,7 +58,7 @@ function getRegister(req, res, next) {
             var hasVotedBefore = findExactMatch(data, req.body);
             var parsed = JSON.parse(response);
             var formatted_address = parsed.results[0]['formatted_address'];
-            if (formatted_address.match(/NJ/g)) {
+            if (formatted_address.match(/NY/g)) { // please change NY to your state name
               return db.one(
                 'INSERT INTO volunteers' +
                       '(first_name, last_name, middle_initial, dob, interests, phone_number, email, address, voter_id)' +
@@ -80,9 +78,9 @@ function getRegister(req, res, next) {
                 )
                 .then( data => {
                   if (hasVotedBefore === 'undefined') {
-                    res.json({backendMessage: "firsttimevolunteer", volunteer_id: data.volunteer_id});
+                    res.json({backendMessage: "firsttimevolunteer", volunteer_id: data.volunteer_id, first_name: req.body.first_name, last_name: req.body.last_name,});
                   } else {
-                    res.json({backendMessage: "loyal " + hasVotedBefore.full_name.split(/(\s).+\s/).join(""), volunteer_id: data.volunteer_id});
+                    res.json({backendMessage: "voter", first_name: req.body.first_name, last_name: req.body.last_name, volunteer_id: data.volunteer_id});
                   }
                 })
                 .catch(error => {
@@ -90,7 +88,7 @@ function getRegister(req, res, next) {
                 });
             } else {
               var state = formatted_address.split(" ");
-              res.json({backendMessage: "outofstate", state: state[state.length-2]});
+              res.json({backendMessage: "outofstate", state: state[state.length-2], first_name: req.body.first_name, last_name: req.body.last_name});
             }
         })
       }
@@ -116,7 +114,7 @@ function getRegister(req, res, next) {
                   }
           )
           .then(data => {
-            res.json('youngvolunteers')
+            res.json({backendMessage: 'youngvolunteers', first_name: req.body.first_name, last_name: req.body.last_name})
           })
           .catch(error => {
             res.json(error);
